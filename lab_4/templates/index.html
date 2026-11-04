@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enter Details</title>
+</head>
+
+<body>
+
+    {% if not student_records and not show_histogram and not error %}
+
+        <h1>Enter the details</h1>
+
+        <form method="POST" action="/" id="data-form">
+
+            <input type="radio" name="ID" value="student_id" />
+            <label>Student ID</label>
+
+            <input type="radio" name="ID" value="course_id" />
+            <label>Course ID</label>
+
+            <input type="text" name="id_value" />
+
+            <input type="submit" value="Submit" />
+
+        </form>
+
+    {% endif %}
+
+
+    {% if student_records %}
+
+        <h1>Student Details</h1>
+
+        <table border="2" id="student-details-table">
+
+            <tr>
+                <th>Student Id</th>
+                <th>Course Id</th>
+                <th>Marks</th>
+            </tr>
+
+            {% for row in student_records %}
+
+                <tr>
+                    <td>{{ row.student_id }}</td>
+                    <td>{{ row.course_id }}</td>
+                    <td>{{ row.marks|int if row.marks == row.marks|int else row.marks }}</td>
+                </tr>
+
+            {% endfor %}
+
+            <tr>
+                <td colspan="2" style="text-align:center">
+                    Total Marks
+                </td>
+
+                <td>{{ total_marks|int if total_marks == total_marks|int else total_marks }}</td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <a href="/">Go Back</a>
+
+    {% endif %}
+
+
+    {% if show_histogram %}
+
+        <h1>Course Details</h1>
+
+        <table border="2" id="course-details-table">
+
+            <tr>
+                <th>Average Marks</th>
+                <th>Maximum Marks</th>
+            </tr>
+
+            <tr>
+                <td>{{ average_marks }}</td>
+                <td>{{ maximum_marks|int if maximum_marks == maximum_marks|int else maximum_marks }}</td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <img src="{{ url_for('static', filename='histogram.png') }}"
+             alt="Marks Histogram">
+
+        <br><br>
+
+        <a href="/">Go Back</a>
+
+    {% endif %}
+
+
+    {% if error %}
+
+        <h1>Wrong Inputs</h1>
+
+        <p>Something went wrong</p>
+
+        <a href="/">Go Back</a>
+
+    {% endif %}
+
+</body>
+</html>
